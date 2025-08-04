@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Tamu - SMAN 1 Kota Malang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8 relative">
+        <!-- Fullscreen Button -->
+        <button id="fullscreenBtn" onclick="toggleFullscreen()" 
+                class="absolute top-4 right-4 p-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition-all duration-200"
+                title="Masuk Fullscreen (F11)">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+            </svg>
+        </button>
+
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center mb-4">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mr-4">
+                    <svg class="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold">SMAN 1 Kota Malang</h1>
+                    <p class="text-xl opacity-90">Buku Tamu Digital</p>
+                </div>
+            </div>
+            <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                Selamat datang di sistem buku tamu digital SMAN 1 Kota Malang. 
+                Silakan isi data Anda untuk mencatat kunjungan Anda hari ini.
+            </p>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Form Buku Tamu -->
+            <div class="bg-white rounded-xl card-shadow p-8 animate-fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    Isi Buku Tamu
+                </h2>
+                
+                <form id="guestForm" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap *</label>
+                            <input type="text" id="nama" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="Masukkan nama lengkap">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">No. Telepon *</label>
+                            <input type="tel" id="telepon" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="08xxxxxxxxxx">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Instansi/Organisasi *</label>
+                        <input type="text" id="instansi" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                               placeholder="Nama instansi atau organisasi">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Keperluan Kunjungan *</label>
+                        <select id="keperluan" required 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            <option value="">Pilih keperluan kunjungan</option>
+                            <option value="Bertemu Kepala Sekolah">Bertemu Kepala Sekolah</option>
+                            <option value="Bertemu Guru">Bertemu Guru</option>
+                            <option value="Urusan Administrasi">Urusan Administrasi</option>
+                            <option value="Kesiswaan">Kesiswaan</option>
+                            <option value="Sarpras">Sarpras</option>
+                            <option value="Kurikulum">Kurikulum</option>
+                            <option value="Humas">Humas</option>
+                            <option value="Kunjungan Orang Tua">Kunjungan Orang Tua</option>
+                            <option value="Kunjungan Resmi">Kunjungan Resmi</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Keterangan Tambahan *</label>
+                        <textarea id="keterangan" rows="4" required
+                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                  placeholder="Tuliskan keterangan tambahan jika diperlukan..."></textarea>
+                    </div>
+
+                    <button type="submit" 
+                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Daftar Sebagai Tamu
+                    </button>
+                </form>
+            </div>
+
+            <!-- Daftar Tamu Hari Ini -->
+            <div class="bg-white rounded-xl card-shadow p-8 animate-fade-in">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <svg class="w-6 h-6 mr-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        Tamu Hari Ini
+                    </h2>
+                    <button id="adminBtn" onclick="toggleAdminPanel()" 
+                            class="text-sm text-gray-500 hover:text-blue-600 transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Admin Panel -->
+                <div id="adminPanel" class="hidden mb-6 p-4 bg-gray-50 rounded-lg border">
+                    <div id="adminLogin" class="space-y-4">
+                        <h3 class="text-lg font-semibold text-gray-700">Login Admin</h3>
+                        <div class="flex gap-3">
+                            <input type="password" id="adminPassword" placeholder="Masukkan password admin" 
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <button onclick="loginAdmin()" 
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="adminControls" class="hidden space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-700">Panel Admin</h3>
+                            <button onclick="logoutAdmin()" 
+                                    class="text-sm text-red-600 hover:text-red-700">Logout</button>
+                        </div>
+                        <div class="flex gap-3">
+                            <button onclick="exportToCSV()" 
+                                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Export CSV
+                            </button>
+                            <button onclick="exportToPDF()" 
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                </svg>
+                                Export PDF
+                            </button>
+                            <button onclick="clearAllData()" 
+                                    class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                                Hapus Semua Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4 p-4 bg-blue-50 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600">Total Tamu Hari Ini</p>
+                            <p class="text-2xl font-bold text-blue-600" id="totalTamu">0</p>
+                        </div>
+                        <div class="text-sm text-gray-500" id="tanggalHariIni"></div>
+                    </div>
+                </div>
+
+                <div id="daftarTamu" class="space-y-4 max-h-96 overflow-y-auto">
+                    <div class="text-center text-gray-500 py-8">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <p>Belum ada tamu yang terdaftar hari ini</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <div class="mb-4">
+                <h3 class="text-xl font-semibold mb-2">SMAN 1 Kota Malang</h3>
+                <p class="text-gray-300">Jl. Tugu Utara No. 1, Kota Malang, Jawa Timur</p>
+                <p class="text-gray-300">Telp: (0341) 366454 | Email: tu_sman1malang@yahoo.com</p>
+            </div>
+            <div class="border-t border-gray-700 pt-4">
+                <p class="text-gray-400">&copy; 2024 SMAN 1 Kota Malang. Sistem Buku Tamu Digital.</p>
+            </div>
+        </footer>
+    </footer>
+
+    <script>
+        // Data tamu (dalam implementasi nyata, ini akan tersimpan di database)
+        let daftarTamuHariIni = [];
+        let isAdminLoggedIn = false;
+        const ADMIN_PASSWORD = 'aansman1';
+
+        // Load data from localStorage
+        function loadDataFromStorage() {
+            try {
+                const savedData = localStorage.getItem('bukuTamuData');
+                const savedDate = localStorage.getItem('bukuTamuDate');
+                const today = new Date().toDateString();
+                
+                // Check if saved data is from today
+                if (savedData && savedDate === today) {
+                    daftarTamuHariIni = JSON.parse(savedData);
+                } else {
+                    // Clear old data if it's from a different day
+                    daftarTamuHariIni = [];
+                    localStorage.removeItem('bukuTamuData');
+                    localStorage.removeItem('bukuTamuDate');
+                }
+            } catch (error) {
+                console.log('Error loading data from storage:', error);
+                daftarTamuHariIni = [];
+            }
+        }
+
+        // Save data to localStorage
+        function saveDataToStorage() {
+            try {
+                const today = new Date().toDateString();
+                localStorage.setItem('bukuTamuData', JSON.stringify(daftarTamuHariIni));
+                localStorage.setItem('bukuTamuDate', today);
+            } catch (error) {
+                console.log('Error saving data to storage:', error);
+            }
+        }
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDataFromStorage();
+            updateTanggal();
+            updateDaftarTamu();
+            
+            // Auto fullscreen when page loads - with delay to ensure page is fully loaded
+            setTimeout(() => {
+                enterFullscreen();
+            }, 500);
+            
+            // Handle Enter key on admin password
+            document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loginAdmin();
+                }
+            });
+        });
+
+        // Also try to enter fullscreen immediately when script loads
+        window.addEventListener('load', function() {
+            // Additional attempt after all resources are loaded
+            setTimeout(() => {
+                if (!document.fullscreenElement && 
+                    !document.webkitFullscreenElement && 
+                    !document.msFullscreenElement && 
+                    !document.mozFullScreenElement) {
+                    enterFullscreen();
+                }
+            }, 1000);
+        });
+
+        // Update tanggal hari ini
+        function updateTanggal() {
+            const today = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('tanggalHariIni').textContent = 
+                today.toLocaleDateString('id-ID', options);
+        }
+
+        // Handle form submission
+        document.getElementById('guestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nama = document.getElementById('nama').value;
+            const telepon = document.getElementById('telepon').value;
+            const instansi = document.getElementById('instansi').value;
+            const keperluan = document.getElementById('keperluan').value;
+            const keterangan = document.getElementById('keterangan').value;
+
+            if (!nama || !telepon || !instansi || !keperluan || !keterangan) {
+                alert('Mohon isi semua field yang wajib diisi (bertanda *)');
+                return;
+            }
+
+            // Tambah tamu baru
+            const tamuBaru = {
+                id: Date.now(),
+                nama: nama,
+                telepon: telepon,
+                instansi: instansi,
+                keperluan: keperluan,
+                keterangan: keterangan,
+                waktu: new Date().toLocaleTimeString('id-ID', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                })
+            };
+
+            daftarTamuHariIni.unshift(tamuBaru);
+            saveDataToStorage(); // Save to localStorage
+            updateDaftarTamu();
+            
+            // Reset form
+            this.reset();
+            
+            // Show success message
+            showSuccessMessage(nama);
+        });
+
+        // Update tampilan daftar tamu
+        function updateDaftarTamu() {
+            const container = document.getElementById('daftarTamu');
+            const totalTamu = document.getElementById('totalTamu');
+            
+            totalTamu.textContent = daftarTamuHariIni.length;
+
+            if (daftarTamuHariIni.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <p>Belum ada tamu yang terdaftar hari ini</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = daftarTamuHariIni.map(tamu => `
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-800">${tamu.nama}</h3>
+                            <p class="text-sm text-gray-600 mt-1">${tamu.keperluan}</p>
+                            ${tamu.instansi ? `<p class="text-sm text-gray-500">${tamu.instansi}</p>` : ''}
+                            ${tamu.keterangan ? `<p class="text-xs text-gray-400 mt-2">${tamu.keterangan}</p>` : ''}
+                        </div>
+                        <div class="text-right">
+                            <span class="text-sm font-medium text-blue-600">${tamu.waktu}</span>
+                            ${tamu.telepon ? `<p class="text-xs text-gray-500 mt-1">${tamu.telepon}</p>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show success message
+        function showSuccessMessage(nama) {
+            // Create success notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-fade-in';
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Terima kasih ${nama}! Data Anda telah tercatat.</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Admin Functions
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('hidden');
+            
+            if (!panel.classList.contains('hidden') && !isAdminLoggedIn) {
+                document.getElementById('adminPassword').focus();
+            }
+        }
+
+        function loginAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('adminControls').classList.remove('hidden');
+                document.getElementById('adminPassword').value = '';
+                showNotification('Login berhasil!', 'success');
+            } else {
+                showNotification('Password salah!', 'error');
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminLogin').classList.remove('hidden');
+            document.getElementById('adminControls').classList.add('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+            showNotification('Logout berhasil!', 'success');
+        }
+
+        function exportToCSV() {
+            if (!isAdminLoggedIn) {
+                showNotification('Anda harus login sebagai admin!', 'error');
+                return;
+            }
+
+            if (daftarTamuHariIni.length === 0) {
+                showNotification('Tidak ada data untuk diekspor!', 'error');
+                return;
+            }
+
+            // Prepare CSV data
+            const headers = ['No', 'Nama Lengkap', 'No. Telepon', 'Instansi/Organisasi', 'Keperluan', 'Keterangan', 'Waktu Kunjungan', 'Tanggal'];
+            const today = new Date().toLocaleDateString('id-ID');
+            
+            let csvContent = headers.join(',') + '\n';
+            
+            daftarTamuHariIni.forEach((tamu, index) => {
+                const row = [
+                    index + 1,
+                    `"${tamu.nama}"`,
+                    `"${tamu.telepon || '-'}"`,
+                    `"${tamu.instansi || '-'}"`,
+                    `"${tamu.keperluan}"`,
+                    `"${tamu.keterangan || '-'}"`,
+                    `"${tamu.waktu}"`,
+                    `"${today}"`
+                ];
+                csvContent += row.join(',') + '\n';
+            });
+
+            // Show CSV data in a modal for copying
+            showCSVModal(csvContent, today);
+        }
+
+        function exportToPDF() {
+            if (!isAdminLoggedIn) {
+                showNotification('Anda harus login sebagai admin!', 'error');
+                return;
+            }
+
+            if (daftarTamuHariIni.length === 0) {
+                showNotification('Tidak ada data untuk diekspor!', 'error');
+                return;
+            }
+
+            // Create PDF content
+            const today = new Date();
+            const tanggalIndonesia = today.toLocaleDateString('id-ID', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            // Generate PDF HTML content
+            const pdfContent = generatePDFContent(tanggalIndonesia);
+            
+            // Open PDF in new window for printing
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(pdfContent);
+            printWindow.document.close();
+            
+            // Auto print dialog
+            setTimeout(() => {
+                printWindow.print();
+            }, 500);
+            
+            showNotification(`Laporan PDF siap! (${daftarTamuHariIni.length} data)`, 'success');
+        }
+
+        function generatePDFContent(tanggal) {
+            const tableRows = daftarTamuHariIni.map((tamu, index) => `
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${index + 1}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${tamu.nama}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${tamu.telepon}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${tamu.instansi}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${tamu.keperluan}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${tamu.keterangan}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${tamu.waktu}</td>
+                </tr>
+            `).join('');
+
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Laporan Buku Tamu - SMAN 1 Kota Malang</title>
+                    <style>
+                        @media print {
+                            body { margin: 0; }
+                            .no-print { display: none; }
+                        }
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                            font-size: 12px;
+                            line-height: 1.4;
+                        }
+                        .header {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            border-bottom: 3px solid #333;
+                            padding-bottom: 20px;
+                        }
+                        .logo-section {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin-bottom: 15px;
+                        }
+                        .logo {
+                            width: 80px;
+                            height: 80px;
+                            margin-right: 20px;
+                        }
+                        .school-info h1 {
+                            margin: 0;
+                            font-size: 24px;
+                            font-weight: bold;
+                            color: #333;
+                        }
+                        .school-info h2 {
+                            margin: 5px 0;
+                            font-size: 18px;
+                            font-weight: normal;
+                            color: #666;
+                        }
+                        .school-info p {
+                            margin: 2px 0;
+                            font-size: 12px;
+                            color: #666;
+                        }
+                        .report-title {
+                            font-size: 16px;
+                            font-weight: bold;
+                            margin: 20px 0;
+                            text-align: center;
+                            text-transform: uppercase;
+                        }
+                        .report-info {
+                            margin-bottom: 20px;
+                        }
+                        .report-info p {
+                            margin: 5px 0;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 30px;
+                        }
+                        th {
+                            background-color: #f5f5f5;
+                            border: 1px solid #ddd;
+                            padding: 10px;
+                            text-align: center;
+                            font-weight: bold;
+                        }
+                        td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            vertical-align: top;
+                        }
+                        .signature-section {
+                            margin-top: 40px;
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                        .signature-box {
+                            width: 45%;
+                            text-align: center;
+                        }
+                        .signature-line {
+                            margin-top: 80px;
+                            border-top: 1px solid #333;
+                            padding-top: 5px;
+                        }
+                        .print-button {
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            margin: 10px;
+                        }
+                        .print-button:hover {
+                            background-color: #45a049;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="no-print">
+                        <button class="print-button" onclick="window.print()">🖨️ Print PDF</button>
+                        <button class="print-button" onclick="window.close()" style="background-color: #f44336;">❌ Tutup</button>
+                    </div>
+                    
+                    <div class="header">
+                        <div class="school-info" style="text-align: center;">
+                            <h1>SMAN 1 KOTA MALANG</h1>
+                            <h2>DINAS PENDIDIKAN PROVINSI JAWA TIMUR</h2>
+                            <p>Jl. Tugu Utara No. 1, Kota Malang, Jawa Timur 65111</p>
+                            <p>Telp: (0341) 366454 | Email: tu_sman1malang@yahoo.com</p>
+                        </div>
+                    </div>
+
+                    <div class="report-title">
+                        Laporan Buku Tamu Harian
+                    </div>
+
+                    <div class="report-info">
+                        <p><strong>Tanggal:</strong> ${tanggal}</p>
+                        <p><strong>Total Tamu:</strong> ${daftarTamuHariIni.length} orang</p>
+                        <p><strong>Waktu Cetak:</strong> ${new Date().toLocaleString('id-ID')}</p>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">No</th>
+                                <th style="width: 20%;">Nama Lengkap</th>
+                                <th style="width: 12%;">No. Telepon</th>
+                                <th style="width: 18%;">Instansi/Organisasi</th>
+                                <th style="width: 15%;">Keperluan</th>
+                                <th style="width: 20%;">Keterangan</th>
+                                <th style="width: 10%;">Waktu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+
+                    <div class="signature-section">
+                        <div class="signature-box">
+                            <p><strong>Petugas Piket</strong></p>
+                            <div class="signature-line">
+                                <p>(_________________________)</p>
+                                <p>NIP. </p>
+                            </div>
+                        </div>
+                        <div class="signature-box">
+                            <p><strong>Kepala Sekolah</strong></p>
+                            <div class="signature-line">
+                                <p><strong>Dr. Basuki Agus Priyana Putra, M.Pd</strong></p>
+                                <p>NIP. 196808081994031008</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px; text-align: center; font-size: 10px; color: #666;">
+                        <p>Dokumen ini dicetak secara otomatis dari Sistem Buku Tamu Digital SMAN 1 Kota Malang</p>
+                        <p>Dicetak pada: ${new Date().toLocaleString('id-ID')}</p>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        function showCSVModal(csvContent, today) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[80vh] overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Data CSV - Buku Tamu ${today}</h3>
+                        <button onclick="this.closest('.fixed').remove()" 
+                                class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2">Salin data CSV di bawah ini dan paste ke Excel/Google Sheets:</p>
+                        <div class="flex gap-2 mb-3">
+                            <button onclick="copyCSVToClipboard()" 
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                Salin ke Clipboard
+                            </button>
+                            <button onclick="openCSVInNewTab()" 
+                                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                </svg>
+                                Buka di Tab Baru
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="csvData" readonly 
+                              class="w-full h-64 p-3 border border-gray-300 rounded-lg font-mono text-sm bg-gray-50 resize-none"
+                              onclick="this.select()">${csvContent}</textarea>
+                    <div class="mt-4 text-xs text-gray-500">
+                        <p><strong>Cara menggunakan:</strong></p>
+                        <p>1. Klik "Salin ke Clipboard" atau pilih semua teks dan copy (Ctrl+C)</p>
+                        <p>2. Buka Excel atau Google Sheets</p>
+                        <p>3. Paste data (Ctrl+V) dan pilih "Text to Columns" jika diperlukan</p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Store CSV content globally for clipboard function
+            window.currentCSVContent = csvContent;
+            
+            showNotification(`Data CSV siap! (${daftarTamuHariIni.length} data)`, 'success');
+        }
+
+        function copyCSVToClipboard() {
+            const csvData = document.getElementById('csvData');
+            csvData.select();
+            csvData.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                document.execCommand('copy');
+                showNotification('Data berhasil disalin ke clipboard!', 'success');
+            } catch (err) {
+                // Fallback for modern browsers
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(window.currentCSVContent).then(() => {
+                        showNotification('Data berhasil disalin ke clipboard!', 'success');
+                    }).catch(() => {
+                        showNotification('Gagal menyalin. Silakan copy manual.', 'error');
+                    });
+                } else {
+                    showNotification('Silakan pilih semua teks dan copy manual (Ctrl+C)', 'error');
+                }
+            }
+        }
+
+        function openCSVInNewTab() {
+            const csvData = 'data:text/csv;charset=utf-8,' + encodeURIComponent(window.currentCSVContent);
+            const newWindow = window.open(csvData, '_blank');
+            if (newWindow) {
+                showNotification('Data CSV dibuka di tab baru!', 'success');
+            } else {
+                showNotification('Pop-up diblokir. Silakan izinkan pop-up untuk website ini.', 'error');
+            }
+        }
+
+        function clearAllData() {
+            if (!isAdminLoggedIn) {
+                showNotification('Anda harus login sebagai admin!', 'error');
+                return;
+            }
+
+            if (daftarTamuHariIni.length === 0) {
+                showNotification('Tidak ada data untuk dihapus!', 'error');
+                return;
+            }
+
+            // Create custom confirmation dialog
+            const confirmDialog = document.createElement('div');
+            confirmDialog.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            confirmDialog.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Konfirmasi Hapus Data</h3>
+                    <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus semua data tamu hari ini? (${daftarTamuHariIni.length} data)</p>
+                    <div class="flex gap-3 justify-end">
+                        <button onclick="this.closest('.fixed').remove()" 
+                                class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Batal
+                        </button>
+                        <button onclick="confirmClearData(); this.closest('.fixed').remove()" 
+                                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                            Hapus Semua
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(confirmDialog);
+        }
+
+        function confirmClearData() {
+            const totalData = daftarTamuHariIni.length;
+            daftarTamuHariIni = [];
+            saveDataToStorage(); // Save empty data to localStorage
+            updateDaftarTamu();
+            showNotification(`${totalData} data berhasil dihapus!`, 'success');
+        }
+
+        function showNotification(message, type = 'success') {
+            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-fade-in`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${type === 'success' 
+                            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'
+                            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>'
+                        }
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Fullscreen Functions
+        function enterFullscreen() {
+            const elem = document.documentElement;
+            
+            try {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen().then(() => {
+                        console.log('Fullscreen activated successfully');
+                    }).catch(err => {
+                        console.log('Fullscreen request failed:', err);
+                        // Try alternative methods if main method fails
+                        tryAlternativeFullscreen();
+                    });
+                } else if (elem.webkitRequestFullscreen) { // Safari
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { // IE11
+                    elem.msRequestFullscreen();
+                } else if (elem.mozRequestFullScreen) { // Firefox
+                    elem.mozRequestFullScreen();
+                } else {
+                    console.log('Fullscreen API not supported');
+                }
+            } catch (error) {
+                console.log('Error entering fullscreen:', error);
+                tryAlternativeFullscreen();
+            }
+        }
+
+        function tryAlternativeFullscreen() {
+            // Try webkit prefix
+            const elem = document.documentElement;
+            if (elem.webkitRequestFullscreen) {
+                try {
+                    elem.webkitRequestFullscreen();
+                } catch (e) {
+                    console.log('Webkit fullscreen failed:', e);
+                }
+            }
+        }
+
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { // Safari
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE11
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen();
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement && 
+                !document.webkitFullscreenElement && 
+                !document.msFullscreenElement && 
+                !document.mozFullScreenElement) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+
+        // Handle fullscreen change events
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+        function handleFullscreenChange() {
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            if (fullscreenBtn) {
+                const isFullscreen = document.fullscreenElement || 
+                                   document.webkitFullscreenElement || 
+                                   document.msFullscreenElement || 
+                                   document.mozFullScreenElement;
+                
+                fullscreenBtn.innerHTML = isFullscreen ? 
+                    `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>` :
+                    `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                    </svg>`;
+                
+                fullscreenBtn.title = isFullscreen ? 'Keluar Fullscreen (ESC)' : 'Masuk Fullscreen (F11)';
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // F11 for fullscreen toggle
+            if (e.key === 'F11') {
+                e.preventDefault();
+                toggleFullscreen();
+            }
+            
+            // ESC to exit fullscreen
+            if (e.key === 'Escape' && (document.fullscreenElement || 
+                                      document.webkitFullscreenElement || 
+                                      document.msFullscreenElement || 
+                                      document.mozFullScreenElement)) {
+                exitFullscreen();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'969c73ec2349f87b',t:'MTc1NDI5MzcxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
